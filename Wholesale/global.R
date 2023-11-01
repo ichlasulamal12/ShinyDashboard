@@ -5,7 +5,7 @@ library(tidyverse)
 library(lubridate)
 library(DT)
 
-Summary <- read_excel("D:/Ichlasul Amal - DKPK/Wholesale/Monitoring/Data Monitoring/Desember 2023/Data Monitoring Wholesale Credit Tool - Desember 2023.xlsx", 
+Summary <- read_excel("data.xlsx", 
                       sheet = "Data", range = "A2:O121")
 
 Summary <- Summary[Summary$No != 39, ]
