@@ -1,12 +1,22 @@
 library(shiny)
 library(shinydashboard)
 library(readxl)
+#library(readr)
+library(httr)
 library(tidyverse)
 library(lubridate)
 library(DT)
 
-Summary <- read_excel("data.xlsx", 
-                      sheet = "Data", range = "A2:O121")
+# Define the URL of the raw Excel file on GitHub
+url <- "url raw github"
+temp_file <- tempfile(fileext = ".xlsx")
+GET(url, write_disk(temp_file, overwrite = TRUE))
+Summary <- read_excel(temp_file, sheet = "Data", range = "A2:O121")
+
+#Summary <- read_excel("data.xlsx", 
+#                      sheet = "Data", range = "A2:O121")
+#Summary <- read_delim("url raw github",
+#                      delim = ";", escape_double = FALSE, trim_ws = TRUE)
 
 Summary <- Summary[Summary$No != 39, ]
 
