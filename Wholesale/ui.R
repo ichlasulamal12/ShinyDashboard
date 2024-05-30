@@ -20,21 +20,14 @@ body <- dashboardBody(
     tabItem(
       tabName = "home",
       fluidPage(
-        valueBox(width = 4,
-                 value = tags$p(len, style = "font-size: 100%;"), 
-                 subtitle = "Jumlah Pengajuan", 
-                 icon = icon("industry"),
-                 color = "maroon"),
-        valueBox(width = 4,
-                 value = tags$p(count_yes, style = "font-size: 100%;"), 
-                 subtitle = "Jumlah Pengajuan yang Dropping", 
-                 icon = icon("wallet"),
-                 color = "maroon"),
-        valueBox(width = 4,
-                 value = tags$p(median_sla_adj, "Menit", style = "font-size: 100%;"), 
-                 subtitle = "Rata-Rata SLA", 
-                 icon = icon("clock"),
-                 color = "maroon")
+        dateRangeInput("dateRange", "Pilih Range Data:", 
+                       start = min(Summary$`Tanggal Permohonan`), 
+                       end = max(Summary$`Tanggal Permohonan`))
+      ),
+      fluidPage(
+        valueBoxOutput("jumlah_pengajuan"),
+        valueBoxOutput("jumlah_dropping"),
+        valueBoxOutput("rata_sla")
       ),
       fluidPage(
         box(width = 12,
