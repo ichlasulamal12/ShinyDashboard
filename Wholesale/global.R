@@ -53,3 +53,4 @@ calculate_median <- function(data) {
   return(median_value)
 }
 
+len = nrow(Summary)
