@@ -1,24 +1,21 @@
 library(shiny)
 library(shinydashboard)
 library(readxl)
-#library(readr)
-library(httr)
+#library(httr)
 library(tidyverse)
 library(lubridate)
 library(DT)
 
-# Define the URL of the raw Excel file on GitHub
-url <- "url raw github"
-temp_file <- tempfile(fileext = ".xlsx")
-GET(url, write_disk(temp_file, overwrite = TRUE))
-Summary <- read_excel(temp_file, sheet = "Data", range = "A2:O121")
-
-#Summary <- read_excel("data.xlsx", 
-#                      sheet = "Data", range = "A2:O121")
-#Summary <- read_delim("url raw github",
-#                      delim = ";", escape_double = FALSE, trim_ws = TRUE)
+Summary <- read_excel("data.xlsx", 
+                      sheet = "Data", range = "A2:O121")
 
 Summary <- Summary[Summary$No != 39, ]
+
+# Function untuk filter data menggunakan date range
+filter_data_by_date <- function(data, date_range) {
+  data %>%
+    filter(`Tanggal Permohonan` >= date_range[1] & `Tanggal Permohonan` <= date_range[2])
+}
 
 Summary$SLA <- as.numeric(difftime(Summary$`Tanggal Proses Rating`, Summary$`Tanggal Permohonan`, units = "mins"))
 
@@ -56,6 +53,3 @@ calculate_median <- function(data) {
   return(median_value)
 }
 
-len <- nrow(Summary)
-count_yes <- sum(Summary$Dropping == "Yes", na.rm = TRUE)
-median_sla_adj <- calculate_median(Summary$SLA_Adjusment)
